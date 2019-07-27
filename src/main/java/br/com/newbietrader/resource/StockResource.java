@@ -11,7 +11,8 @@ import javax.ws.rs.core.MediaType;
 import br.com.newbietrader.dto.StockDTO;
 import br.com.newbietrader.service.StockService;
 
-@Path("/stocks2")
+
+@Path("/stocks")
 @Produces(MediaType.APPLICATION_JSON)
 public class StockResource {
 
