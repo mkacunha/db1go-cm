@@ -12,7 +12,7 @@ import br.com.newbietrader.dto.StockDTO;
 import br.com.newbietrader.service.StockService;
 
 
-@Path("/stocks")
+@Path("/stocks3")
 @Produces(MediaType.APPLICATION_JSON)
 public class StockResource {
 
