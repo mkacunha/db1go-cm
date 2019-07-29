@@ -1,26 +1,25 @@
 package br.com.newbietrader.service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import com.mongodb.MongoClient;
-
+import br.com.newbietrader.adapter.StockAdapter;
 import br.com.newbietrader.dto.StockDTO;
-import br.com.newbietrader.dto.StockValueDTO;
+import br.com.newbietrader.repository.StockRepository;
 
 @ApplicationScoped
 public class StockService {
 
-	private List<StockDTO> database = new ArrayList<>();
-	
+	@Inject
+	private StockRepository stockRepository;
 	
 	public List<StockDTO> findAll() {
-		return database;
+		return stockRepository.findAll().stream()
+				.map(StockAdapter::toDTO)
+				.collect(Collectors.toList());
 	}
 	
 }
