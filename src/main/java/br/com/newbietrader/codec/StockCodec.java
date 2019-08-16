@@ -2,6 +2,7 @@ package br.com.newbietrader.codec;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.bson.BsonReader;
 import org.bson.BsonValue;
@@ -17,6 +18,7 @@ import com.mongodb.MongoClient;
 import br.com.newbietrader.dto.StockDTO;
 import br.com.newbietrader.entity.Stock;
 import br.com.newbietrader.entity.StockValue;
+import org.bson.types.Decimal128;
 
 public class StockCodec implements CollectibleCodec<Stock>{
 
@@ -52,12 +54,12 @@ public class StockCodec implements CollectibleCodec<Stock>{
 		Document doc = documentCodec.decode(reader, decoderContext);
 		Stock stock = new Stock();
 		stock.setName(doc.getString("name"));
-		stock.setDate(LocalDate.parse(doc.getString("date")));
+		stock.setDate(doc.getDate("date").toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		
 		Document valueDoc = doc.get("value", Document.class);
-		
-		BigDecimal start = BigDecimal.valueOf(valueDoc.getDouble("start"));	
-		BigDecimal end = BigDecimal.valueOf(valueDoc.getDouble("end"));
+
+		BigDecimal start = valueDoc.get("start", Decimal128.class).bigDecimalValue();
+		BigDecimal end = valueDoc.get("end", Decimal128.class).bigDecimalValue();
 		StockValue stockValue = StockValue.of(start, end);
 		stock.setValue(stockValue);
 		return stock;

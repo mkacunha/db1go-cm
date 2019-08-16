@@ -27,7 +27,7 @@ public class StockResource {
     
     @POST
     public void save(StockDTO dto) {
-    	
+    	stockService.save(dto);
     }
     
     
